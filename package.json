@@ -1,0 +1,34 @@
+{
+  "author": "Hesburgh Libraries - WSE <web-and-software-engineering-group@nd.edu>",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@hesburgh-wse/hesburgh_utilities": "^1.0.7",
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.18.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "jest": "^24.8.0"
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "node scripts/test.js --env=jsdom"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>[/\\\\](build|docs|node_modules|scripts)[/\\\\]"
+    ],
+    "testEnvironment": "node",
+    "moduleDirectories": [
+      "node_modules",
+      "src/node_modules",
+      "src"
+    ]
+  }
+}
