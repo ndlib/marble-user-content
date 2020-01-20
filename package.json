@@ -13,7 +13,9 @@
     "eslint-plugin-standard": "^3.0.1",
     "jest": "^24.8.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "aws-sdk": "^2.602.0"
+  },
   "scripts": {
     "test": "node scripts/test.js --env=jsdom"
   },
