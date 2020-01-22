@@ -45,7 +45,7 @@ The code for this Lambda relies on the infrastructure created by the [Marble Blu
 
 ## Deployment
 
-Deployment is documents in the [Marble Blueprints repository](https://github.com/ndlib/marble-blueprints).
+Deployment is documented in the [Marble Blueprints repository](https://github.com/ndlib/marble-blueprints).
 ## NOTES
  * Templated repo must setup Github integrations with continuous integration(ie Hound, Travis, CodeClimate, etc)
  * Sentry integration - https://docs.sentry.io/error-reporting/quickstart/?platform=javascript
