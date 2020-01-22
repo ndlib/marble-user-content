@@ -7,7 +7,8 @@ Use generated content consists of information about `Users`, user created `Colle
 
 ## Installation
 
-Perform a yarn intallation in the main project directory and also in the `src` directory.
+Perform a yarn installation in the main project directory and also in the `src` directory.
+
 ```
 yarn
 cd src
