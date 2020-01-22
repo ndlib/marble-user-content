@@ -4,7 +4,7 @@ const db = new AWS.DynamoDB.DocumentClient()
 const getHelper = require('./get')
 const errors = require('./errors')
 
-const update = async ({ id, table, primaryKey, allowedKeys, body }) => {
+module.exports.update = async ({ id, table, primaryKey, allowedKeys, body }) => {
   if (!body) {
     return { statusCode: 400, body: errors.MISSING_PARAMS_BODY }
   }
@@ -53,9 +53,4 @@ const update = async ({ id, table, primaryKey, allowedKeys, body }) => {
       ? errors.DYNAMODB_EXECUTION_ERROR : errors.RESERVED_RESPONSEE
     return { statusCode: 500, body: errorResponse }
   }
-}
-
-module.exports = {
-  update: update,
-  // updateWithChildren: updateWithChildren,
 }

@@ -5,6 +5,28 @@ Marble User Content consists of an AWS API Gateway, three AWS DynamoDB tables an
 
 Use generated content consists of information about `Users`, user created `Collections`, and individual `Items` saved to those collections.
 
+### API Endpoints
+* `/user/{userName}`
+  * `POST`
+  * `GET`
+  * `PATCH`
+
+
+* `/collection/{userName}`
+  * `POST`    
+* `/collection/{collectionId}`
+  * `GET`
+  * `PATCH`
+  * `DELETE`
+
+
+* `/item/{collectionId}`
+  * `POST`
+* `/item/{itemId}`
+  * `GET`
+  * `PATCH`
+  * `DELETE`
+
 ## Installation
 
 Perform a yarn installation in the main project directory and also in the `src` directory.

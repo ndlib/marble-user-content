@@ -1,4 +1,4 @@
-'user strict'
+'use strict'
 const AWS = require('aws-sdk')
 const db = new AWS.DynamoDB.DocumentClient()
 const getHelper = require('./get')
