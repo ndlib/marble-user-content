@@ -4,13 +4,22 @@ const db = new AWS.DynamoDB.DocumentClient()
 const getHelper = require('./get')
 // const updateHelper = require('./update')
 const errors = require('./errors')
+const headers = require('./headers')
 
 module.exports.create = async ({ id, parentId, table, primaryKey, secondaryKey, allowedKeys, body }) => {
   if (!body) {
-    return { statusCode: 400, body: errors.MISSING_PARAMS_BODY }
+    return {
+      statusCode: 400,
+      headers: headers,
+      body: errors.MISSING_PARAMS_BODY,
+    }
   }
   if (secondaryKey && !parentId) {
-    return { statusCode: 400, body: errors.MISSING_FOREIGN_KEY }
+    return {
+      statusCode: 400,
+      headers: headers,
+      body: errors.MISSING_FOREIGN_KEY,
+    }
   }
 
   // TODO: Verify object does not already exist
@@ -44,10 +53,15 @@ module.exports.create = async ({ id, parentId, table, primaryKey, secondaryKey, 
       primaryKey: primaryKey,
     })
     result.statusCode = 201
+    result.headers = headers
     return result
   } catch (dbError) {
     const errorResponse = dbError.code === 'ValidationException' && dbError.message.includes('reserved keyword')
       ? errors.DYNAMODB_EXECUTION_ERROR : errors.RESERVED_RESPONSEE
-    return { statusCode: 500, body: errorResponse }
+    return {
+      statusCode: 500,
+      headers: headers,
+      body: errorResponse,
+    }
   }
 }
