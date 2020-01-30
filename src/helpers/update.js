@@ -3,21 +3,32 @@ const AWS = require('aws-sdk')
 const db = new AWS.DynamoDB.DocumentClient()
 const getHelper = require('./get')
 const errors = require('./errors')
-
+const headers = require('./headers')
 module.exports.update = async ({ id, table, primaryKey, allowedKeys, body }) => {
   if (!body) {
-    return { statusCode: 400, body: errors.MISSING_PARAMS_BODY }
+    return { statusCode: 400,
+      headers: headers,
+      body: errors.MISSING_PARAMS_BODY,
+    }
   }
 
   if (!id) {
-    return { statusCode: 400, body: errors.MISSING_PATH_ID }
+    return {
+      statusCode: 400,
+      headers: headers,
+      body: errors.MISSING_PATH_ID,
+    }
   }
 
   const editedItem = body === 'object' ? body : JSON.parse(body)
   const editedItemProperties = Object.keys(editedItem).filter(property => allowedKeys.includes(property))
 
   if (!editedItem || editedItemProperties.length < 1) {
-    return { statusCode: 400, body: errors.NO_ARGS }
+    return {
+      statusCode: 400,
+      headers: headers,
+      body: errors.NO_ARGS,
+    }
   }
 
   // add updated time
@@ -51,6 +62,10 @@ module.exports.update = async ({ id, table, primaryKey, allowedKeys, body }) => 
   } catch (dbError) {
     const errorResponse = dbError.code === 'ValidationException' && dbError.message.includes('reserved keyword')
       ? errors.DYNAMODB_EXECUTION_ERROR : errors.RESERVED_RESPONSEE
-    return { statusCode: 500, body: errorResponse }
+    return {
+      statusCode: 500,
+      headers: headers,
+      body: errorResponse,
+    }
   }
 }

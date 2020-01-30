@@ -2,10 +2,15 @@
 const AWS = require('aws-sdk')
 const db = new AWS.DynamoDB.DocumentClient()
 const errors = require('./errors')
+const headers = require('./headers')
 
 module.exports.delete = async ({ id, table, primaryKey, childrenName, childTable, childPrimaryKey, childSecondaryKey }) => {
   if (!id) {
-    return { statusCode: 400, body: errors.MISSING_PATH_ID }
+    return {
+      statusCode: 400,
+      headers: headers,
+      body: errors.MISSING_PATH_ID,
+    }
   }
 
   if (childrenName && childTable && childPrimaryKey && childSecondaryKey) {
@@ -45,8 +50,16 @@ module.exports.delete = async ({ id, table, primaryKey, childrenName, childTable
 
   try {
     await db.delete(params).promise()
-    return { statusCode: 204, body: '' }
+    return {
+      statusCode: 204,
+      headers: headers,
+      body: '',
+    }
   } catch (dbError) {
-    return { statusCode: 500, body: JSON.stringify(dbError) }
+    return {
+      statusCode: 500,
+      headers: headers,
+      body: JSON.stringify(dbError),
+    }
   }
 }

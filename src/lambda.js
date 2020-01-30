@@ -7,6 +7,7 @@ const updateHelper = require('./helpers/update')
 const deleteHelper = require('./helpers/delete')
 const allowedKeys = require('./helpers/keys')
 const errors = require('./helpers/errors')
+const headers = require('./helpers/headers')
 const USER_TABLE_NAME = process.env.USER_TABLE_NAME || 'marble-user-content-users'
 const USER_PRIMARY_KEY = process.env.USER_PRIMARY_KEY || 'userName'
 const COLLECTION_TABLE_NAME = process.env.COLLECTION_TABLE_NAME || 'marble-user-content-collections'
@@ -23,7 +24,11 @@ module.exports.handler = async (event) => {
   if (['POST', 'PATCH', 'DELETE'].includes(event.httpMethod)) {
     const authorized = await canModify(event, props.claims)
     if (!authorized) {
-      return { statusCode: 401, body: errors.UNAUTHORIZED }
+      return {
+        statusCode: 401,
+        headers: headers,
+        body: errors.UNAUTHORIZED,
+      }
     }
   }
 
