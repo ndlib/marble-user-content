@@ -2,6 +2,7 @@
 module.exports = {
   user:[
     'name',
+    'userName',
     'email',
     'bio',
   ],

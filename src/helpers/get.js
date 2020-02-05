@@ -4,46 +4,69 @@ const db = new AWS.DynamoDB.DocumentClient()
 const errors = require('./errors')
 const headers = require('./headers')
 
-module.exports.get = async ({ id, table, primaryKey, childrenName, childTable, childSecondaryKey }) => {
+module.exports.get = async ({ id, table, primaryKey, secondaryKey, secondaryId, childrenName, childTable, childSecondaryKey }) => {
   if (!id) {
     return { statusCode: 400, body: errors.MISSING_PATH_ID }
   }
-  if (childTable && childSecondaryKey && childrenName) {
-    return getItemWithChildren({
-      id: id,
-      table: table,
-      primaryKey: primaryKey,
-      childrenName: childrenName,
-      childTable: childTable,
-      childSecondaryKey: childSecondaryKey,
-    })
-  }
-  return getItem({
-    id: id,
-    table: table,
-    primaryKey: primaryKey,
-  })
-}
-
-const getItem = async ({ id, table, primaryKey }) => {
-  if (!id) {
-    return { statusCode: 400, body: errors.MISSING_PATH_ID }
-  }
-
-  const params = {
+  let params = {
     TableName: table,
     Key: {
       [primaryKey]: id,
     },
   }
+  if (secondaryKey) {
+    params = {
+      TableName: table,
+      IndexName: secondaryKey,
+      KeyConditionExpression: `#field = :value`,
+      ExpressionAttributeNames: {
+        '#field': secondaryKey,
+      },
+      ExpressionAttributeValues: {
+        ':value': secondaryId,
+      },
+    }
+  }
 
+  if (childTable && childSecondaryKey && childrenName) {
+    const parent = await getItem(params)
+    const searchId = JSON.parse(parent.body)[primaryKey]
+
+    const childParams = {
+      TableName: childTable,
+      IndexName: childSecondaryKey,
+      KeyConditionExpression: `#field = :value`,
+      ExpressionAttributeNames: {
+        '#field': childSecondaryKey,
+      },
+      ExpressionAttributeValues: {
+        ':value': searchId,
+      },
+    }
+    return getItemWithChildren(params, childParams, childrenName, childSecondaryKey)
+  }
+  return getItem(params)
+}
+
+const getItem = async (params) => {
   try {
-    const response = await db.get(params).promise()
-    if (response.Item) {
-      return {
-        statusCode: 200,
-        headers: headers,
-        body: JSON.stringify(response.Item),
+    if (params.Key) {
+      const response = await db.get(params).promise()
+      if (response.Item) {
+        return {
+          statusCode: 200,
+          headers: headers,
+          body: JSON.stringify(response.Item),
+        }
+      }
+    } else if (params.KeyConditionExpression) {
+      const response = await db.query(params).promise()
+      if (response.Items) {
+        return {
+          statusCode: 200,
+          headers: headers,
+          body: JSON.stringify(response.Items[0]),
+        }
       }
     }
     return {
@@ -60,36 +83,17 @@ const getItem = async ({ id, table, primaryKey }) => {
   }
 }
 
-const getItemWithChildren = async ({ id, table, primaryKey, childrenName, childTable, childSecondaryKey }) => {
-  if (!id) {
-    return {
-      statusCode: 400,
-      headers: headers,
-      body: errors.MISSING_PATH_ID,
-    }
-  }
-
-  const params = {
-    TableName: table,
-    Key: {
-      [primaryKey]: id,
-    },
-  }
-
-  const childParams = {
-    TableName: childTable,
-    IndexName: childSecondaryKey,
-    KeyConditionExpression: `#field = :value`,
-    ExpressionAttributeNames: {
-      '#field': childSecondaryKey,
-    },
-    ExpressionAttributeValues: {
-      ':value': id,
-    },
-  }
-
+const getItemWithChildren = async (params, childParams, childrenName, childSecondaryKey) => {
   try {
-    const response = await db.get(params).promise()
+    let response = null
+    if (params.Key) {
+      response = await db.get(params).promise()
+    } else if (params.KeyConditionExpression) {
+      response = await db.query(params).promise()
+      if (response.Items) {
+        response.Item = response.Items[0]
+      }
+    }
     if (response.Item) {
       const childrenResponse = await db.query(childParams).promise()
       const result = response.Item

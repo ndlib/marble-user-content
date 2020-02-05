@@ -8,6 +8,7 @@
   "keywords": [],
   "dependencies": {
     "@okta/jwt-verifier": "^1.0.0",
+    "btoa": "^1.2.1",
     "uuid": "^3.3.3"
   }
 }
