@@ -5,7 +5,7 @@ Marble User Content consists of an AWS API Gateway, three AWS DynamoDB tables an
 
 Use generated content consists of information about `Users`, user created `Collections`, and individual `Items` saved to those collections.
 
-`collectionId` and `itemId` are generated automatically on a successful `POST` request using `uuid` version 4. `userId` is a hash using information from the JWT, specifically it is formatted `[sub]`.`[btoa(iss)]` where `sub` is a guaranteed static unique id from the token issuer `iss`. Since `iss` is a url, it is base64 encoded to make parsing the hash less messy.
+`collectionId` and `itemId` are generated automatically on a successful `POST` request using `uuid` version 4. `userId` is a hash using information from the JWT, specifically it is formatted `[sub]`.`[btoa(iss)]` where `sub` is a guaranteed static unique value to identify a user within the scope of an issuer `iss`. `iss` is the url for the JWT issuer. Since it is a url, it has been base64 encoded to make the string simpler to parse should the need arise. (Simply split the string on `.` and `atob` the second part to get the url of the issuer again.)
 
 ### API Endpoints
 * `/user/{userId}`
