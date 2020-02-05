@@ -1,0 +1,809 @@
+{
+	"info": {
+		"_postman_id": "47da8a19-56a2-4aa8-8016-6772470bf313",
+		"name": "Marble User Content",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Smoke",
+			"item": [
+				{
+					"name": "getUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5d8b51f4-8793-44e4-a74f-939772778b03",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/user/tester",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"user",
+								"tester"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e9779b0d-7a82-43f7-90e5-3266edc2ce91",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{okta_auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"email\": \"fake@fake.com\",\n \"name\": \"Fake User\",\n \"bio\": \"Fake bio\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/user/tester",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"user",
+								"tester"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCollection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fe5fa583-dfb5-4c87-91bc-4851eda9fb34",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/collection/test-collection",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"collection",
+								"test-collection"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCollection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e7977aba-9834-4408-b4a8-a037a6bb8aa1",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{okta_auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"image\": \"http://fake.com/picture.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/collection/tester",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"collection",
+								"tester"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getItem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ce5a981-3e23-4f44-996f-7551f9a5bb26",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/item/test-item",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"item",
+								"test-item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createItem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ce5a981-3e23-4f44-996f-7551f9a5bb26",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{okta_auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Fake title\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/item/test-collection",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"item",
+								"test-collection"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6a826a38-f185-431e-b74e-e4cb91d8280a",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(\"Deleting auth token for smoke tests\");",
+							"delete pm.variables.okta_auth_token;"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e77023cd-bf20-44bb-9725-cbee013e5380",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Integration",
+			"item": [
+				{
+					"name": "createUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e9779b0d-7a82-43f7-90e5-3266edc2ce91",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"Returns correct userName\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    user = pm.variables.get(\"user\");",
+									"    pm.expect(jsonData.userName).to.eql(user);",
+									"});",
+									"pm.test(\"Returns correct email\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.email).to.eql(\"fake@fake.com\");",
+									"});",
+									"pm.test(\"Returns correct name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Fake User\");",
+									"});",
+									"pm.test(\"Returns correct bio\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.bio).to.eql(\"Fake bio\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{okta_auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"email\": \"fake@fake.com\",\n \"name\": \"Fake User\",\n \"bio\": \"Fake bio\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/user/{{user}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"user",
+								"{{user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5d8b51f4-8793-44e4-a74f-939772778b03",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Returns correct userName\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    user = pm.variables.get(\"user\");",
+									"    pm.expect(jsonData.userName).to.eql(user);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/user/{{user}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"user",
+								"{{user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "40ee8c1a-f9e4-4c57-942d-903f4f1fc47e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Returns correct email\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.email).to.eql(\"updated@fake.com\");",
+									"});",
+									"pm.test(\"Returns correct name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Updated Fake Name\");",
+									"});",
+									"pm.test(\"Returns correct bio\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.bio).to.eql(\"Updated fake bio\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{okta_auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"updated@fake.com\",\n\t\"name\": \"Updated Fake Name\",\n\t\"bio\": \"Updated fake bio\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/user/{{user}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"user",
+								"{{user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "839da49a-009f-4c09-bd47-ec13f8b37edd",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{okta_auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/user/{{user}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"user",
+								"{{user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCollection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e7977aba-9834-4408-b4a8-a037a6bb8aa1",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"Returns correct userName\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    user = pm.variables.get(\"user\");",
+									"    pm.expect(jsonData.userName).to.eql(user);",
+									"});",
+									"pm.test(\"Returns correct image\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.image).to.eql(\"http://fake.com/picture.jpg\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{okta_auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"image\": \"http://fake.com/picture.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/collection/{{user}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"collection",
+								"{{user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCollection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fe5fa583-dfb5-4c87-91bc-4851eda9fb34",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Returns correct collection\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    collection_uuid = pm.variables.get(\"collection_uuid\");",
+									"    pm.expect(jsonData.uuid).to.eql(collection_uuid);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/collection/{{collection_uuid}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"collection",
+								"{{collection_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCollection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e7977aba-9834-4408-b4a8-a037a6bb8aa1",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{okta_auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/collection/{{collection_uuid}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"collection",
+								"{{collection_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createItem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ce5a981-3e23-4f44-996f-7551f9a5bb26",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"Returns correct userName\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.title).to.eql(\"A new item\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{okta_auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Fake title\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/item/{{collection_uuid}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"item",
+								"{{collection_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteItem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ce5a981-3e23-4f44-996f-7551f9a5bb26",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{okta_auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/item/{{item}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"item",
+								"{{item}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateItem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ce5a981-3e23-4f44-996f-7551f9a5bb26",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Returns correct title\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.title).to.eql(\"Updated title\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{okta_auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Updated title\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/item/{{item}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"item",
+								"{{item}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getItem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ce5a981-3e23-4f44-996f-7551f9a5bb26",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Returns correct item uuid\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    item = pm.variables.get(\"item\");",
+									"    pm.expect(jsonData.uuid).to.eql(item);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/item/{{item}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"item",
+								"{{item}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "460a45f7-ff0d-4bae-8ecb-ea9b99b91d48",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "bbc9db1b-1a6c-4223-b44b-8191559b4ae0",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "c513c33a-f28f-434b-bd9d-c06360cd56cc",
+			"key": "collection_uuid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "2cf46d65-cf74-4cae-870c-c8a234322bc1",
+			"key": "api",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "4802075c-d7f7-48e1-b090-c6ac4cea6ed3",
+			"key": "user",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "9f67f83a-2324-440d-b2e4-80279920f658",
+			"key": "okta_auth_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "d4d6a325-524d-4b9c-bf31-7c1dcf316ff1",
+			"key": "item",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "bc5f667a-f1c6-4a34-86b8-d3dd464d4b1c",
+			"key": "suite",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
