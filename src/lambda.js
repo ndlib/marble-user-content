@@ -80,6 +80,7 @@ const requestProps = async (event) => {
   } else if (event.resource.indexOf('collection') === 1) {
     props.table = COLLECTION_TABLE_NAME
     props.primaryKey = COLLECTION_PRIMARY_KEY
+    props.secondaryKey = COLLECTION_SECONDARY_KEY
     props.allowedKeys = allowedKeys.collection
     props.childrenName = 'items'
     props.childTable = ITEM_TABLE_NAME
@@ -88,6 +89,7 @@ const requestProps = async (event) => {
   } else if (event.resource.indexOf('item') === 1) {
     props.table = ITEM_TABLE_NAME
     props.primaryKey = ITEM_PRIMARY_KEY
+    props.secondaryKey = ITEM_SECONDARY_KEY
     props.allowedKeys = allowedKeys.item
   }
 

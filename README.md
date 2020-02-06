@@ -33,6 +33,10 @@ Use generated content consists of information about `Users`, user created `Colle
   * `PATCH`
   * `DELETE`
 
+### Allowed fields on content types
+
+  See `/src/helpers/keys.js`.
+
 ## Installation
 
 Perform a yarn installation in the main project directory and also in the `src` directory.

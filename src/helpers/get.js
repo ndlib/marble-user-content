@@ -3,6 +3,7 @@ const AWS = require('aws-sdk')
 const db = new AWS.DynamoDB.DocumentClient()
 const errors = require('./errors')
 const headers = require('./headers')
+const USER_TABLE_NAME = process.env.USER_TABLE_NAME || 'marble-user-content-users'
 
 module.exports.get = async ({ id, table, primaryKey, secondaryKey, secondaryId, childrenName, childTable, childSecondaryKey }) => {
   if (!id) {
@@ -14,7 +15,7 @@ module.exports.get = async ({ id, table, primaryKey, secondaryKey, secondaryId, 
       [primaryKey]: id,
     },
   }
-  if (secondaryKey) {
+  if (secondaryKey && table === USER_TABLE_NAME) {
     params = {
       TableName: table,
       IndexName: secondaryKey,

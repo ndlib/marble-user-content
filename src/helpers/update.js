@@ -61,7 +61,7 @@ module.exports.update = async ({ id, table, primaryKey, allowedKeys, body }) => 
     })
   } catch (dbError) {
     const errorResponse = dbError.code === 'ValidationException' && dbError.message.includes('reserved keyword')
-      ? errors.DYNAMODB_EXECUTION_ERROR : errors.RESERVED_RESPONSEE
+      ? errors.DYNAMODB_EXECUTION_ERROR : errors.RESERVED_RESPONSE
     return {
       statusCode: 500,
       headers: headers,
