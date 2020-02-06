@@ -1,7 +1,8 @@
 'use strict'
 module.exports = {
   user:[
-    'name',
+    'fullName',
+    'userName',
     'email',
     'bio',
   ],
