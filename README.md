@@ -1,4 +1,5 @@
 # Marble User Content
+
 ## Description
 
 Marble User Content consists of an AWS API Gateway, three AWS DynamoDB tables and several AWS Lambda functions to provide a CRUD API endpoint for user generated content on a [MARBLE](https://github.com/ndlib/marble-website-starter) site.
@@ -8,6 +9,7 @@ Use generated content consists of information about `Users`, user created `Colle
 `collectionId` and `itemId` are generated automatically on a successful `POST` request using `uuid` version 4. `userId` is a hash using information from the JWT, specifically it is formatted `[sub]`.`[btoa(iss)]` where `sub` is a guaranteed static unique value to identify a user within the scope of an issuer `iss`. `iss` is the url for the JWT issuer. Since it is a url, it has been base64 encoded to make the string simpler to parse should the need arise. (Simply split the string on `.` and `atob` the second part to get the url of the issuer again.)
 
 ### API Endpoints
+
 * `/user/{userId}`
   * `POST`
   * `PATCH`
@@ -25,7 +27,6 @@ Use generated content consists of information about `Users`, user created `Colle
   * `PATCH`
   * `DELETE`
 
-
 * `/item/{collectionId}`
   * `POST`
 * `/item/{itemId}`
@@ -41,13 +42,62 @@ Use generated content consists of information about `Users`, user created `Colle
 
 Perform a yarn installation in the main project directory and also in the `src` directory.
 
-```
+```bash
 yarn
 cd src
 yarn
 ```
 
 ## Testing
+
+### Smoke Tests
+
+In order to run smoke tests, it assumes you have the following data prepopulated:
+
+A test user:
+
+```json
+{
+  "userName": "tester",
+  "uuid": "tester"
+}
+```
+
+A test collection:
+
+```json
+{
+  "userName": "tester",
+  "uuid": "test-collection"
+}
+```
+
+A test item:
+
+```json
+{
+  "collection": "test-collection",
+  "title": "Test Item",
+  "uuid": "test-item"
+}
+```
+
+```bash
+newman run tests/postman/collection.json --folder Smoke \
+  --env-var api=<api endpoint>
+```
+
+### Integration Tests
+
+```bash
+newman run tests/postman/collection.json \
+  --folder Integration \
+  --env-var api=<api endpoint> \
+  --env-var okta_auth_token=<auth token> \
+  --env-var user=<user> \
+  --env-var collection_uuid=<collection uuid> \
+  --env-var item=<item>
+```
 
 ## Dependencies
 
@@ -56,6 +106,8 @@ The code for this Lambda relies on the infrastructure created by the [Marble Blu
 ## Deployment
 
 Deployment is documented in the [Marble Blueprints repository](https://github.com/ndlib/marble-blueprints).
+
 ## NOTES
- * Templated repo must setup Github integrations with continuous integration(ie Hound, Travis, CodeClimate, etc)
- * Sentry integration - https://docs.sentry.io/error-reporting/quickstart/?platform=javascript
+
+* Templated repo must setup Github integrations with continuous integration(ie Hound, Travis, CodeClimate, etc)
+* Sentry integration - <https://docs.sentry.io/error-reporting/quickstart/?platform=javascript>
