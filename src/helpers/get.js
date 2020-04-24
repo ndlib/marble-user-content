@@ -3,6 +3,7 @@ const AWS = require('aws-sdk')
 const db = new AWS.DynamoDB.DocumentClient()
 const errors = require('./errors')
 const headers = require('./headers')
+const safeNull = require('./safeNull')
 const USER_TABLE_NAME = process.env.USER_TABLE_NAME || 'marble-user-content-users'
 
 module.exports.get = async ({ id, table, primaryKey, secondaryKey, secondaryId, childrenName, childTable, childSecondaryKey }) => {
@@ -57,7 +58,7 @@ const getItem = async (params) => {
         return {
           statusCode: 200,
           headers: headers,
-          body: JSON.stringify(response.Item),
+          body: JSON.stringify(response.Item).replace(new RegExp(safeNull, 'g'), ''),
         }
       }
     } else if (params.KeyConditionExpression) {
@@ -66,7 +67,7 @@ const getItem = async (params) => {
         return {
           statusCode: 200,
           headers: headers,
-          body: JSON.stringify(response.Items[0]),
+          body: JSON.stringify(response.Items[0]).replace(new RegExp(safeNull, 'g'), ''),
         }
       }
     }
@@ -107,7 +108,7 @@ const getItemWithChildren = async (params, childParams, childrenName, childSecon
       return {
         statusCode: 200,
         headers: headers,
-        body: JSON.stringify(result),
+        body: JSON.stringify(result).replace(new RegExp(safeNull, 'g'), ''),
       }
     }
 

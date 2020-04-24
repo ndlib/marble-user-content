@@ -5,6 +5,7 @@ const getHelper = require('./get')
 // const updateHelper = require('./update')
 const errors = require('./errors')
 const headers = require('./headers')
+const safeNull = require('./safeNull')
 
 module.exports.create = async ({ id, parentId, table, primaryKey, secondaryKey, allowedKeys, body }) => {
   if (!body) {
@@ -25,11 +26,13 @@ module.exports.create = async ({ id, parentId, table, primaryKey, secondaryKey, 
   // TODO: Verify object does not already exist
 
   const item = typeof body === 'object' ? body : JSON.parse(body)
-  // Removed non-allowed keys
+  // Removed non-allowed keys and sanitize nulls
   const properties = Object.keys(item)
   properties.forEach(property => {
     if (!allowedKeys.includes(property)) {
       delete item[property]
+    } else if (item[property] === '' || item[property] === null) {
+      item[property] = safeNull
     }
   })
   item[primaryKey] = id

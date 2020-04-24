@@ -4,6 +4,7 @@ const db = new AWS.DynamoDB.DocumentClient()
 const getHelper = require('./get')
 const errors = require('./errors')
 const headers = require('./headers')
+const safeNull = require('./safeNull')
 module.exports.update = async ({ id, table, primaryKey, allowedKeys, body }) => {
   if (!body) {
     return { statusCode: 400,
@@ -31,6 +32,12 @@ module.exports.update = async ({ id, table, primaryKey, allowedKeys, body }) => 
     }
   }
 
+  // clean up null values
+  editedItemProperties.forEach(property => {
+    if (editedItem[property] === '' || editedItem[property] === null) {
+      editedItem[property] = safeNull
+    }
+  })
   // add updated time
   editedItem.updated = Date.now()
   editedItemProperties.push('updated')
