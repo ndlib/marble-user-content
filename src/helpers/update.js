@@ -5,7 +5,7 @@ const getHelper = require('./get')
 const errors = require('./errors')
 const headers = require('./headers')
 const safeNull = require('./safeNull')
-module.exports.update = async ({ id, table, primaryKey, allowedKeys, body }) => {
+module.exports.update = async ({ id, table, primaryKey, allowedKeys, body, secondaryKey, secondaryId, childrenName, childTable, childSecondaryKey }) => {
   if (!body) {
     return { statusCode: 400,
       headers: headers,
@@ -65,6 +65,11 @@ module.exports.update = async ({ id, table, primaryKey, allowedKeys, body }) => 
       id: id,
       table: table,
       primaryKey: primaryKey,
+      secondaryKey: secondaryKey,
+      secondaryId: secondaryId,
+      childrenName: childrenName,
+      childTable: childTable,
+      childSecondaryKey: childSecondaryKey,
     })
   } catch (dbError) {
     const errorResponse = dbError.code === 'ValidationException' && dbError.message.includes('reserved keyword')
