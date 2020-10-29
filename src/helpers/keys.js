@@ -18,7 +18,7 @@ module.exports = {
     'image',
     'link',
     'manifest',
-    'index',
+    'displayOrder',
     'annotation',
   ],
 }
